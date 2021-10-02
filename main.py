@@ -11,6 +11,14 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 im_pattern = re.compile('i\'?m (.+)', re.IGNORECASE)
 
+shut_ups = {'shut up',
+            'shut your up',
+            'stfu',
+            'shut the fuck up',
+            'shut ur up',
+            'shut the hell your mouth',
+            'shut the hell your up'}
+
 client = discord.Client()
 
 
@@ -34,5 +42,10 @@ async def on_message(message: discord.Message):
             await message.channel.send('You\'re not Craig, I\'m Craig!')
         else:
             await message.channel.send(f'Hi {regex_match.group(1)}, I\'m Craig!')
+    if message.content in shut_ups:
+        await message.channel.send(f'Listen here {message.author.display_name}, I will not tolerate you saying those '
+                                   f'bloody words that consist of the letters \'s h u t  u p\' in this server, '
+                                   f'so take your own advice and close thine god damn mouth in the name of the '
+                                   f'christian minecraft server owner.')
 
 client.run(TOKEN)
