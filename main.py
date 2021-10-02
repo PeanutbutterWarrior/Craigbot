@@ -2,12 +2,16 @@ import os
 import discord
 import re
 
+import commands
+
 with open('.env') as env_file:
     for line in env_file.read().split('\n'):
         key, val = line.split('=')
         os.environ[key] = val
 
 TOKEN = os.getenv('DISCORD_TOKEN')
+
+bot_prefix = 'c!'
 
 im_pattern = re.compile('i\'?m (.+)', re.IGNORECASE)
 is_cool_pattern = re.compile('([^ ]+) (?:is|are) cool')
@@ -23,6 +27,11 @@ shut_ups = {'shut up',
 client = discord.Client()
 
 
+async def call_command(message_content, message):
+    command_name, *arguments = message_content[len(bot_prefix):].split(' ')
+    await getattr(commands, command_name)(message, *arguments)
+
+
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
@@ -34,6 +43,12 @@ async def on_message(message: discord.Message):
         return
     if message.author.bot:
         return
+
+    if message.content.startswith(bot_prefix):
+        try:
+            await call_command(message.content, message)
+        except AttributeError:
+            pass
 
     if message.content == 'Hi craig':
         await message.channel.send(f'Hi {message.author.display_name}')
