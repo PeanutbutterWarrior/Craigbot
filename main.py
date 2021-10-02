@@ -4,10 +4,6 @@ import re
 
 import commands
 
-with open('.env') as env_file:
-    for line in env_file.read().split('\n'):
-        key, val = line.split('=')
-        os.environ[key] = val
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
@@ -52,7 +48,6 @@ async def on_message(message: discord.Message):
 
     if message.content == 'Hi craig':
         await message.channel.send(f'Hi {message.author.display_name}')
-        return
     elif (regex_match := im_pattern.search(message.content)) is not None:
         if regex_match.group(1).lower() == 'craig':
             await message.channel.send('You\'re not Craig, I\'m Craig!')
@@ -68,5 +63,11 @@ async def on_message(message: discord.Message):
                                    f'top of the line tools, amazing DIY construction products, and premium services '
                                    f'for the discerning customer. Come down today to buy a new drill, or a razor '
                                    f'sharp saw. We might even sell {regex_match.group(1).lower()}!')
+
+
+with open('.env') as env_file:
+    for line in env_file.read().split('\n'):
+        key, val = line.split('=')
+        os.environ[key] = val
 
 client.run(TOKEN)
