@@ -10,6 +10,7 @@ with open('.env') as env_file:
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 im_pattern = re.compile('i\'?m (.+)', re.IGNORECASE)
+is_cool_pattern = re.compile('([^ ]+) (?:is|are) cool')
 
 shut_ups = {'shut up',
             'shut your up',
@@ -47,5 +48,10 @@ async def on_message(message: discord.Message):
                                    f'bloody words that consist of the letters \'s h u t  u p\' in this server, '
                                    f'so take your own advice and close thine god damn mouth in the name of the '
                                    f'christian minecraft server owner!')
+    elif (regex_match := is_cool_pattern.search(message.content)) is not None:
+        await message.channel.send(f'{regex_match.group(1).title()} may be cool, but Home Depot is cooler. We sell '
+                                   f'top of the line tools, amazing DIY construction products, and premium services '
+                                   f'for the discerning customer. Come down today to buy a new drill, or a razor '
+                                   f'sharp saw. We might even sell {regex_match.group(1).lower()}!')
 
 client.run(TOKEN)
