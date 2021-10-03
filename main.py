@@ -25,7 +25,11 @@ webhook_manager = helpers.WebhookManager()
 
 async def call_command(message_content, message):
     command_name, *arguments = message_content[len(bot_prefix):].split(' ')
-    await getattr(commands, command_name)(message, *arguments)
+    try:
+        command = getattr(commands, command_name)
+    except AttributeError:
+        return
+    await command(message, webhook_manager, *arguments)
 
 
 @client.event
@@ -42,10 +46,7 @@ async def on_message(message: discord.Message):
         return
 
     if message.content.startswith(bot_prefix):
-        try:
-            await call_command(message.content, message)
-        except AttributeError:
-            pass
+        await call_command(message.content, message)
 
     if message.content == 'Hi craig':
         await message.channel.send(f'Hi {message.author.display_name}')
