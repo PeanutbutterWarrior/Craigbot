@@ -6,5 +6,5 @@ with open(os.path.normpath('commands/fun_facts.txt')) as file:
     fun_facts = file.read().splitlines()
 
 
-async def funfact(message: discord.Message):
+async def funfact(message: discord.Message, webhook_manager):
     await message.channel.send(random.choice(fun_facts))
