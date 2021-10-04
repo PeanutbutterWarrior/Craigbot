@@ -25,11 +25,8 @@ webhook_manager = helpers.WebhookManager()
 
 async def call_command(message_content, message):
     command_name, *arguments = message_content[len(bot_prefix):].split(' ')
-    try:
-        command = getattr(commands, command_name)
-    except AttributeError:
-        return
-    await command(message, webhook_manager, *arguments)
+    if command_name in commands.commands:
+        await commands.commands[command_name](message, webhook_manager, *arguments)
 
 
 @client.event
