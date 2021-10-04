@@ -38,6 +38,9 @@ with open(os.path.normpath('data/fun_facts.txt')) as file:
 with open('data/dadjokes.txt') as file:
     dad_jokes = file.read().splitlines()
 
+with open('data/advice.txt') as file:
+    craigs_advice = file.read().splitlines()
+
 
 @command(name='embarrass',
          description='Embarrass yourself or others',
@@ -59,3 +62,9 @@ async def funfact(message: discord.Message):
          description='Have Craig tell you a dad joke')
 async def dadjoke(message: discord.Message):
     await message.channel.send(random.choice(dad_jokes))
+
+
+@command(name='advice',
+         description='Get Craig\'s advice')
+async def advice(message: discord.Message):
+    await message.channel.send(random.choice(craigs_advice))
