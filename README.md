@@ -1,5 +1,9 @@
 # Craigbot
 
-A clone of dadbot, written in python, and renamed to craig
+A discord bot similar to dadbot, written in python
 
-Attempts to be the same user experience
+# Installation
+
+Requires a .env file in the directory, with a line `DISCORD_TOKEN={bot token}`
+
+Run the main.py script to run
