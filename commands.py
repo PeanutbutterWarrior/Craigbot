@@ -39,13 +39,13 @@ with open('data/dadjokes.txt') as file:
     dad_jokes = file.read().splitlines()
 
 with open('data/advice.txt') as file:
-    craigs_advice = file.read().splitlines()
+    advice = file.read().splitlines()
 
 
 @command(name='embarrass',
          description='Embarrass yourself or others',
          usage=' [person]')
-async def embarrass(message: discord.Message, webhook_manager: helpers.WebhookManager):
+async def embarrass(message: discord.Message, webhook_manager: helpers.WebhookManager, *args):
     webhook = await webhook_manager.get_webhook(message.channel)
     await webhook.send(random.choice(embarrassing_phrases),
                        username=message.author.display_name,
@@ -54,17 +54,38 @@ async def embarrass(message: discord.Message, webhook_manager: helpers.WebhookMa
 
 @command(name='funfact',
          description='Get a fun fact from Craig')
-async def funfact(message: discord.Message):
+async def funfact_command(message: discord.Message, *args):
     await message.channel.send(random.choice(fun_facts))
 
 
 @command(name='dadjoke',
          description='Have Craig tell you a dad joke')
-async def dadjoke(message: discord.Message):
+async def dadjoke_command(message: discord.Message, *args):
     await message.channel.send(random.choice(dad_jokes))
 
 
 @command(name='advice',
          description='Get Craig\'s advice')
-async def advice(message: discord.Message):
-    await message.channel.send(random.choice(craigs_advice))
+async def advice_command(message: discord.Message, *args):
+    await message.channel.send(random.choice(advice))
+
+
+@command(name='help',
+         description='Get general help or help for a specific command',
+         usage=' [command]')
+async def help_command(message: discord.Message, *args):
+    if len(args) == 0:
+        help_text = f'''**Craig** v1.0.0
+
+Commands:
+    '''
+        command_list = []
+        for command in commands.values():
+            command_list.append(f'**{command.name}**: {command.description}')
+        help_text += '\n    '.join(command_list)
+        help_text += '''
+Use c!help (command) to get help for a specific command
+'''
+        await message.channel.send(help_text)
+    else:
+        ...
