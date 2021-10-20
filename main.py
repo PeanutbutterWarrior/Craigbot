@@ -18,7 +18,7 @@ class CustomClient(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.prefix = 'c!'
-        self._im_pattern = re.compile('i\'?m (.+)', re.IGNORECASE)
+        self._im_pattern = re.compile('(?:^| )i\'?m (.+)', re.IGNORECASE)
         self._is_cool_pattern = re.compile('([^ ]+) (?:is|are) cool', re.IGNORECASE)
         self.webhook_manager = helpers.WebhookManager()
         self.version = '1.0.0'

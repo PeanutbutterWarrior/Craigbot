@@ -2,7 +2,6 @@ import discord
 import os.path
 import random
 
-import helpers
 from main import CustomClient
 
 commands = {}
@@ -93,7 +92,7 @@ async def help_command(message: discord.Message, client: CustomClient, *args):
             command_list.append(f'\n    {client.prefix}**{command.name}**: {command.description}')
         help_text += ''.join(command_list)
         help_text += '\n\nUse c!help [command] to get help for a specific command'
-        await message.channel.send(help_text)
     else:
         help_text = f'{client.prefix}**{command.name}**\n{command.explanation}'
+    await message.channel.send(help_text)
 
