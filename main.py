@@ -36,7 +36,7 @@ class CustomClient(discord.Client):
         if message.content.startswith(self.prefix):
             await self.call_command(message)
 
-        if message.content == 'Hi craig':
+        if message.content.lower() == 'hi craig':
             await message.channel.send(f'Hi {message.author.display_name}')
         # Checks for I'm ------
         elif (regex_match := self._im_pattern.search(message.content)) is not None:
@@ -56,6 +56,9 @@ class CustomClient(discord.Client):
                                        f'top of the line tools, amazing DIY construction products, and premium services '
                                        f'for the discerning customer. Come down today to buy a new drill, or a razor '
                                        f'sharp saw. We might even sell {regex_match.group(1).lower()}!')
+        # Checks for I love Craig
+        elif message.content.lower() == 'i love craig':
+            await message.channel.send(f'I <3 you too, {message.author.display_name}')
 
     async def call_command(self, message: discord.Message):
         command_name, *arguments = message.content[len(self.prefix):].split(' ')
