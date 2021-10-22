@@ -19,6 +19,7 @@ class WebhookManager:
                         break
                 else:
                     # Guild has no text channels, cannot create a webhook for it
+                    print('Cannot find or create a webhook for guild {guild.name}:{guild.id}')
                     continue
             else:
                 used_webhook, *spare_webhooks = guild_webhooks
