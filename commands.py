@@ -47,16 +47,18 @@ with open('data/advice.txt') as file:
 @command(name='embarrass',
          description='Embarrass yourself or others',
          explanation='Send an embarrassing message as you, or another person. Provide a person by @pinging them.',
-         usage=' [person]')
+         usage=' [@person1] [@person2] ...')
 async def embarrass(message: discord.Message, client: CustomClient, *args):
     if len(args) == 0:
-        webhook = await client.webhook_manager.get_webhook(message.channel)
-        await webhook.send(random.choice(embarrassing_phrases),
-                           username=message.author.display_name,
-                           avatar_url=message.author.avatar_url)
+        users_to_embarrass = [message.author]
     else:
-        message.channel.send('This isn\'t implemented yet. Maybe in the next version')
-        raise NotImplemented
+        users_to_embarrass = message.mentions
+
+    webhook = await client.webhook_manager.get_webhook(message.channel)
+    for user in users_to_embarrass:
+        await webhook.send(random.choice(embarrassing_phrases),
+                           username=user.display_name,
+                           avatar_url=user.avatar_url)
 
 
 @command(name='funfact',
