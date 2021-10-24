@@ -36,7 +36,7 @@ class CustomClient(discord.Client):
         if message.content.startswith(self.prefix):
             await self.call_command(message)
 
-        if message.content.lower() == 'hi craig':
+        if message.content.lower().startswith('hi craig'):
             await message.channel.send(f'Hi {message.author.display_name}')
         # Checks for I'm ------
         elif (regex_match := self._im_pattern.search(message.content)) is not None:
@@ -46,7 +46,7 @@ class CustomClient(discord.Client):
                 await message.channel.send(f'Hi {regex_match.group(1)}, I\'m Craig!')
         # Checks for shut up
         elif any(shut_up in message.content.lower() for shut_up in shut_ups):
-            await message.channel.send(f'Listen here {message.author.display_name}, I will not tolerate you saying those '
+            await message.channel.send(f'Listen here {message.author.mention}, I will not tolerate you saying those '
                                        f'bloody words that consist of the letters \'s h u t  u p\' in this server, '
                                        f'so take your own advice and close thine god damn mouth in the name of the '
                                        f'christian minecraft server owner!')
